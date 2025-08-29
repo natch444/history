@@ -10,6 +10,14 @@ This is the list of all the available action :
 - squash
 - merge
 
+#### init
+
+```
+# Create or use existing repo
+action: init
+  base-repo: [ new | existing ]
+```
+
 #### new-branch
 ```
 # Create branch dev from master
@@ -18,9 +26,10 @@ action: new-branch
   branch-name: dev
 ```
 
-#### push
+#### commit
 
 ```
+# Commit changes
 action: commit
   author: John Doe
   email: john.doe@sleepz.com
