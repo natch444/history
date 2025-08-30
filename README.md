@@ -5,6 +5,7 @@ This project aims to generate git history.
 ### Actions
 
 This is the list of all the available action :
+- init
 - new-branch
 - commit
 - squash
