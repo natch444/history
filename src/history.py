@@ -27,10 +27,18 @@ def signature(name: str, email: str, when: int = None) -> pygit2.Signature:
         when = iso_to_timestamp(when)
     return pygit2.Signature(name=name, email=email, time=when, offset=0)
 
-def copy_file(source_path, dest_path):
+
+def copy_path(source_path, dest_path):
     try:
-        shutil.copy(source_path, dest_path)
-        print(f"File copied from {source_path} to {dest_path}")
+        if os.path.isdir(source_path):
+            # If folder already exists, it is deleted
+            if os.path.exists(dest_path):
+                shutil.rmtree(dest_path)
+            shutil.copytree(source_path, dest_path)
+            print(f"Directory copied from {source_path} to {dest_path}")
+        else:
+            shutil.copy(source_path, dest_path)
+            print(f"File copied from {source_path} to {dest_path}")
     except Exception as e:
         print(f"Error: {e}")
 
@@ -101,6 +109,33 @@ def stage_files(repo: pygit2.Repository, paths):
         index.add(p) # adds or updates the entry
         index.write()
     print(f"Staged {len(paths)} file(s): {', '.join(paths)}")
+
+def stage_files(repo: pygit2.Repository, paths):
+    """
+    Add ``paths`` (list of strings relative to the repo root) to the index.
+    Handles both files and directories (recursively).
+    """
+    index = repo.index
+    repo_root = repo.workdir
+
+    staged_files = []
+
+    for p in paths:
+        full_path = os.path.join(repo_root, p)
+        if os.path.isdir(full_path):
+
+            for root, _, files in os.walk(full_path):
+                for f in files:
+                    rel_path = Path(root, f).relative_to(repo_root)
+                    index.add(str(rel_path))
+                    staged_files.append(str(rel_path))
+        else:
+            index.add(p)
+            staged_files.append(p)
+
+    index.write()
+    print(f"Staged {len(staged_files)} file(s): {', '.join(staged_files)}")
+
 
 def initial_commit(
         repo: pygit2.Repository,
@@ -179,7 +214,6 @@ def commit_changes(
             )
     print(f"New commit {commit_oid} – {message}")
     return commit_oid
-
 
 
 def merge_branches(

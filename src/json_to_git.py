@@ -1,7 +1,7 @@
 import json
 from history import *
 
-
+# Author : natch
 
 def load_config(config):
     """
@@ -27,7 +27,7 @@ def action_copy(action):
     length = len(action["src"])
     dst_folder = action["dst-folder"]
     for i in range(length):
-        copy_file(action["src"][i], f"{dst_folder}/{action["dst"][i]}")
+        copy_path(action["src"][i], f"{dst_folder}/{action["dst"][i]}")
 
 def action_commit(repo, action):
     """
