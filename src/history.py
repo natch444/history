@@ -2,6 +2,7 @@ import os
 import datetime
 from pathlib import Path
 import pygit2
+import shutil
 
 # Author : natch
 # Assistant : Lumo by Proton
@@ -26,6 +27,12 @@ def signature(name: str, email: str, when: int = None) -> pygit2.Signature:
         when = iso_to_timestamp(when)
     return pygit2.Signature(name=name, email=email, time=when, offset=0)
 
+def copy_file(source_path, dest_path):
+    try:
+        shutil.copy(source_path, dest_path)
+        print(f"File copied from {source_path} to {dest_path}")
+    except Exception as e:
+        print(f"Error: {e}")
 
 # ----------------------------------------------------------------------
 # Initialise or open a repository
@@ -239,4 +246,5 @@ def merge_branches(repo: pygit2.Repository, source: str, target: str, squash: bo
 
         # Clean up the merge state
         repo.state_cleanup()
+
 
