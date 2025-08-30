@@ -12,10 +12,10 @@ def load_config(config):
     repo = get_repo(path)
 
     if repo.is_empty:
-        author = config["author"] or "John Dodo"
-        email = config["email"] or "john@dodo.com"
-        message = config["message"] or "Initial commit (default message)"
-        date = config["date"]
+        author = config["author"] if config["author"] else "John Dodo"
+        email = config["email"] if config["email"] else "john@dodo.com"
+        message = config["message"] if config["message"] or "Initial commit (default message)"
+        date = config["date"] if config["date"] else None
         initial_commit(repo, message, author, email, date)
 
     return repo
