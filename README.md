@@ -2,22 +2,25 @@
 
 This project aims to generate git history based on json file.
 
+*Note: You can find a `json` example file in the `example/`
+directory.*
+
 ### Config
 
-Your json file must start with a `config` object as follow :
+Your `json` file must start with a `config` object as follow :
 ```json
-  "config" : { 
-      "path" : "test",
-      "author": "John Doe",
-      "email": "john@doe.com",
-      "message": "Initial commit",
-      "date": "2020-02-22T23:42:00"
-    },
+"config" : { 
+    "path": "test",
+    "author": "John Doe",
+    "email": "john@doe.com",
+    "message": "Initial commit",
+    "date": "2020-02-22T23:42:00"
+  }
 ```
-- `path` : The path where the `.git` folder can be found or
+- `path`: The path where the `.git` folder can be found or
 should be created.
 In case of a new repository, you **can** provide following the
-arguments :
+arguments:
 - `author`
 - `email`
 - `message`
@@ -29,7 +32,7 @@ If not provided default value will be used.
 
 Then your `json` file must contains a *list* of action.
 
-This is the list of all the available action :
+This is the list of all the available action:
 - new-branch
 - checkout
 - commit
@@ -38,8 +41,8 @@ This is the list of all the available action :
 - copy
 
 #### new-branch
-```
-# Create branch dev from master
+Example: Create branch dev from master
+```json
 {
   "action": "new-branch",
   "base-branch": "master",
@@ -48,8 +51,8 @@ This is the list of all the available action :
 ```
 
 #### checkout
-```
-# Checkout to a target branch
+Example: Checkout to a target branch
+```json
 {
   "action": "checkout",
   "branch-name": "dev"
@@ -57,9 +60,8 @@ This is the list of all the available action :
 ```
 
 #### commit
-
-```
-# Commit changes
+Example: Commit changes from files list
+```json
 {
   "action": "commit",
   "branch": "master",
@@ -84,9 +86,8 @@ action: squash
 ```
 
 #### merge
-
-```
-# Merge branch `dev` onto `master`
+Example: Merge branch `dev` onto `master`
+```json
 {
   "action": "merge",
   "source-branch": "dev",
@@ -99,12 +100,12 @@ action: squash
 ```
 
 #### copy
-```
-# copy folder & file list from src to dst path
+Example: copy folder & file list from src to dst path
+```json
 {
   "action": "copy",
   "dst-folder": "test",
-  "src" : [
+  "src": [
     "/tmp/README.md",
     "/tmp/requirement.txt"
   ],
