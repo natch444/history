@@ -182,10 +182,18 @@ def commit_changes(
 
 
 
-def merge_branches(repo: pygit2.Repository, source: str, target: str, squash: bool = False):
+def merge_branches(
+            repo: pygit2.Repository,
+            source: str,
+            target: str,
+            squash: bool = False,
+            author_name: str = "John Dodo",
+            author_email: str = "john@dodo.zzz",
+            author_date_iso: str = None
+            ):
     """
     Merge ``source`` into ``target``.
-    If ``squat`` is True we perform a squash merge (single commit on target).
+    If ``squash`` is True we perform a squash merge (single commit on target).
     """
     # Checkout the target branch first
     checkout_branch(repo, target)
@@ -216,7 +224,10 @@ def merge_branches(repo: pygit2.Repository, source: str, target: str, squash: bo
         # Squash: create a single commit without a merge commit.
         # We reuse the index tree but set the parent to the current target only.
         tree = repo.index.write_tree()
-        author = signature("Squash Bot", "squash@example.com")
+        author = signature(
+                        author_name, 
+                        author_email,
+                        author_date_iso)
         committer = author
         msg = f"Squash merge {source} into {target}"
         squash_oid = repo.create_commit(
@@ -231,7 +242,11 @@ def merge_branches(repo: pygit2.Repository, source: str, target: str, squash: bo
     else:
         # Normal merge commit (two parents)
         tree = repo.index.write_tree()
-        author = signature("Merge Bot", "merge@example.com")
+
+        author = signature(
+                        author_name, 
+                        author_email,
+                        author_date_iso)
         committer = author
         msg = f"Merge branch '{source}' into '{target}'"
         merge_oid = repo.create_commit(
