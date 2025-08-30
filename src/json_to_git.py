@@ -3,9 +3,6 @@ from history import *
 
 
 
-# TODO: Handle all actions
-
-
 def load_config(config):
     """
     In case of new repo, assuming author == committer
@@ -24,10 +21,53 @@ def load_config(config):
     return repo
     
 def action_copy(action):
+    """
+    Copy files from source to destination
+    """
     length = len(action["src"])
     dst_folder = action["dst-folder"]
     for i in range(length):
         copy_file(action["src"][i], f"{dst_folder}/{action["dst"][i]}")
+
+def action_commit(repo, action):
+    """
+    Stage and commit files at once
+    """
+    # Ensure that we are on the right branch
+    if action["branch"] :
+        checkout_branch(repo, action["branch"])
+
+    if len(action["files"]) == 0:
+        print("Must have files to stage")
+        exit(1)
+
+    stage_files(repo, action["files"])
+
+    commit_changes(
+            repo,
+            message=action["message"],
+            author_name=action["author"],
+            author_email=action["email"],
+            author_date_iso=action["date"],
+            )
+    
+def action_new_branch(repo, action):
+    """
+    Create a new branch from base branch
+    """
+    if action["base-branch"]:
+        checkout_branch(repo, action["base-branch"])
+    create_branch(repo, action["branch-name"])
+
+def action_checkout(repo, action):
+    """
+    Checkout on branch name
+    """
+    checkout_branch(repo, action["branch-name"])
+
+# TODO: Implements : 
+# - action_merge
+# - squash ?
 
 def read_json(path_to_file):
     print(f"Start parsing: {path_to_file}")
@@ -38,10 +78,13 @@ def read_json(path_to_file):
         for action in data["actions"]:
             match action["action"]:
                 case "copy":
-                    print("copy")
                     action_copy(action)
                 case "commit":
-                    print("commit")
+                    action_commit(repo, action)
+                case "new-branch":
+                    action_new_branch(repo, action)
+                case "checkout":
+                    action_checkout(repo, action)
                 case _:
-                    print("match nothing")
+                    print("unrecognized option")
                     
