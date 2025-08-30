@@ -1,48 +1,81 @@
 ### Project
 
-This project aims to generate git history.
+This project aims to generate git history based on json file.
+
+### Config
+
+Your json file must start with a `config` object as follow :
+```json
+  "config" : { 
+      "path" : "test",
+      "author": "John Doe",
+      "email": "john@doe.com",
+      "message": "Initial commit",
+      "date": "2020-02-22T23:42:00"
+    },
+```
+- `path` : The path where the `.git` folder can be found or
+should be created.
+In case of a new repository, you **can** provide following the
+arguments :
+- `author`
+- `email`
+- `message`
+- `date`
+
+If not provided default value will be used.
 
 ### Actions
 
+Then your `json` file must contains a *list* of action.
+
 This is the list of all the available action :
-- init
 - new-branch
+- checkout
 - commit
-- squash
+- squash (*pending...*)
 - merge
-
-#### init
-
-```
-# Create or use existing repo
-action: init
-  base-repo: [ new | existing ]
-```
+- copy
 
 #### new-branch
 ```
 # Create branch dev from master
-action: new-branch
-  base-branch: master
-  branch-name: dev
+{
+  "action": "new-branch",
+  "base-branch": "master",
+  "branch-name": "dev"
+}
+```
+
+#### checkout
+```
+# Checkout to a target branch
+{
+  "action": "checkout",
+  "branch-name": "dev"
+}
 ```
 
 #### commit
 
 ```
 # Commit changes
-action: commit
-  author: John Doe
-  email: john.doe@sleepz.com
-  date: 24/01/2023
-  branch: dev
-  files:
-    - files/web.html
-    - files/style.css
+{
+  "action": "commit",
+  "branch": "master",
+  "author": "John Doe",
+  "email": "john@doe.com",
+  "message": "Add README.md & requirement.txt",
+  "date": "2020-02-22T23:42:00",
+  "files": [
+    "README.md",
+    "requirement.txt"
+  ]
+}
 ```
 
 #### squash
-
+*pending...*
 ```
 # Squash the last 10th commit on branch `dev`
 action: squash
@@ -54,7 +87,30 @@ action: squash
 
 ```
 # Merge branch `dev` onto `master`
-action: merge
-  src-branch: master
-  trgt-branch: dev
+{
+  "action": "merge",
+  "source-branch": "dev",
+  "target-branch": "master",
+  "squash" : false,
+  "author": "John Doe",
+  "email": "john@doe.com",
+  "date": "2020-02-22T23:42:00"
+}
+```
+
+#### copy
+```
+# copy folder & file list from src to dst path
+{
+  "action": "copy",
+  "dst-folder": "test",
+  "src" : [
+    "/tmp/README.md",
+    "/tmp/requirement.txt"
+  ],
+  "dst": [
+    "README.md",
+    "requirement.txt"
+  ]
+}
 ```

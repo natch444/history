@@ -47,7 +47,7 @@
       "action": "copy",
       "dst-folder": "test",
       "src" : [
-        "/tmp/toto/toto"
+        "/tmp/toto/"
       ],
       "dst": [
         "toto"
