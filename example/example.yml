@@ -1,0 +1,79 @@
+{
+  "config" : { 
+      "path" : "test",
+      "author": "John Doe",
+      "email": "john@doe.com",
+      "message": "Initial commit",
+      "date": "2020-02-22T23:42:00"
+    },
+  "actions": [
+
+    { 
+      "action": "copy",
+      "dst-folder": "test",
+      "src" : [
+        "/tmp/README.md",
+        "/tmp/requirement.txt"
+      ],
+      "dst": [
+        "README.md",
+        "requirement.txt"
+      ]
+    },
+    { 
+      "action": "commit",
+      "branch": "master",
+      "author": "John Doe",
+      "email": "john@doe.com",
+      "message": "Add README.md & requirement.txt",
+      "date": "2020-02-22T23:42:00",
+      "files": [
+        "README.md",
+        "requirement.txt"
+      ]
+    },
+    {
+      "action": "new-branch",
+      "base-branch": "master",
+      "branch-name": "dev"
+    },
+
+    {
+      "action": "checkout",
+      "branch-name": "dev"
+    },
+
+    { 
+      "action": "copy",
+      "dst-folder": "test",
+      "src" : [
+        "/tmp/toto/"
+      ],
+      "dst": [
+        "toto"
+      ]
+    },
+
+    { 
+      "action": "commit",
+      "branch": "dev",
+      "author": "John Doe",
+      "email": "john@doe.com",
+      "message": "Add toto",
+      "date": "2020-02-22T23:42:00",
+      "files": [
+        "toto"
+      ]
+    },
+
+    {
+      "action": "merge",
+      "source-branch": "dev",
+      "target-branch": "master",
+      "squash" : false,
+      "author": "John Doe",
+      "email": "john@doe.com",
+      "date": "2020-02-22T23:42:00"
+    }
+  ]
+}
