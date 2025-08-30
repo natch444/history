@@ -53,7 +53,7 @@ def get_repo(repo_path: Path) -> pygit2.Repository:
 
 
 # ----------------------------------------------------------------------
-#  Branch creation helpers
+# Branch creation helpers
 # ----------------------------------------------------------------------
 def create_branch(repo: pygit2.Repository, name: str, start_point: str = "HEAD"):
     """
@@ -80,7 +80,7 @@ def checkout_branch(repo: pygit2.Repository, branch_name: str):
 
 
 # ----------------------------------------------------------------------
-# 3 Staging & committing
+# Staging & committing
 # ----------------------------------------------------------------------
 def write_file(repo_path: Path, relative_path: str, content: str):
     """
@@ -225,10 +225,11 @@ def merge_branches(
         # We reuse the index tree but set the parent to the current target only.
         tree = repo.index.write_tree()
         author = signature(
-                        author_name, 
+                        author_name,
                         author_email,
                         author_date_iso)
         committer = author
+
         msg = f"Squash merge {source} into {target}"
         squash_oid = repo.create_commit(
                 "HEAD",
@@ -238,16 +239,17 @@ def merge_branches(
                 tree,
                 [target_oid],
                 )
-        print(f"Squash‑merged {source} → {target} as {squash_oid}")
+        print(f"Squash‑merged {source} -> {target} as {squash_oid}")
     else:
         # Normal merge commit (two parents)
         tree = repo.index.write_tree()
 
         author = signature(
-                        author_name, 
+                        author_name,
                         author_email,
                         author_date_iso)
         committer = author
+
         msg = f"Merge branch '{source}' into '{target}'"
         merge_oid = repo.create_commit(
                 "HEAD",
@@ -261,5 +263,3 @@ def merge_branches(
 
         # Clean up the merge state
         repo.state_cleanup()
-
-

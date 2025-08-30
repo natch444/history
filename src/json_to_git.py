@@ -65,8 +65,20 @@ def action_checkout(repo, action):
     """
     checkout_branch(repo, action["branch-name"])
 
+def action_merge(repo, action):
+    """
+    Merge source into target branch
+    """
+    merge_branches(
+            repo,
+            source=action["source-branch"],
+            target=action["target-branch"],
+            squash=action["squash"],
+            author_name=action["author"],
+            author_email=action["email"],
+            author_date_iso=action["date"])
+
 # TODO: Implements : 
-# - action_merge
 # - squash ?
 
 def read_json(path_to_file):
@@ -85,6 +97,8 @@ def read_json(path_to_file):
                     action_new_branch(repo, action)
                 case "checkout":
                     action_checkout(repo, action)
+                case "merge":
+                    action_merge(repo, action)
                 case _:
                     print("unrecognized option")
                     

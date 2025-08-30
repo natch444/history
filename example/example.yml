@@ -37,6 +37,7 @@
       "base-branch": "master",
       "branch-name": "dev"
     },
+
     {
       "action": "checkout",
       "branch-name": "dev"
@@ -55,7 +56,7 @@
 
     { 
       "action": "commit",
-      "branch": "master",
+      "branch": "dev",
       "author": "John Doe",
       "email": "john@doe.com",
       "message": "Add toto",
@@ -63,6 +64,16 @@
       "files": [
         "toto"
       ]
+    },
+
+    {
+      "action": "merge",
+      "source-branch": "dev",
+      "target-branch": "master",
+      "squash" : false,
+      "author": "John Doe",
+      "email": "john@doe.com",
+      "date": "2020-02-22T23:42:00"
     }
   ]
 }
