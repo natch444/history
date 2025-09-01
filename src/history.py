@@ -37,10 +37,13 @@ def copy_path(source_path, dest_path):
             shutil.copytree(source_path, dest_path)
             print(f"Directory copied from {source_path} to {dest_path}")
         else:
+            # Need to create directory if does not exist
+            os.makedirs(os.path.dirname(dest_path), exist_ok=True)
             shutil.copy(source_path, dest_path)
             print(f"File copied from {source_path} to {dest_path}")
     except Exception as e:
         print(f"Error: {e}")
+        exit(1)
 
 # ----------------------------------------------------------------------
 # Initialise or open a repository

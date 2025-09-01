@@ -14,7 +14,7 @@ def load_config(config):
     if repo.is_empty:
         author = config["author"] if config["author"] else "John Dodo"
         email = config["email"] if config["email"] else "john@dodo.com"
-        message = config["message"] if config["message"] or "Initial commit (default message)"
+        message = config["message"] if config["message"] else "Initial commit (default message)"
         date = config["date"] if config["date"] else None
         initial_commit(repo, message, author, email, date)
 
@@ -90,8 +90,10 @@ def read_json(path_to_file):
         for action in data["actions"]:
             match action["action"]:
                 case "copy":
+                    print("COPY")
                     action_copy(action)
                 case "commit":
+                    print("COMMIT")
                     action_commit(repo, action)
                 case "new-branch":
                     action_new_branch(repo, action)
