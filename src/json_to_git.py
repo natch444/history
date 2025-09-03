@@ -16,7 +16,7 @@ def load_config(config):
         email = config["email"] if config["email"] else "john@dodo.com"
         message = config["message"] if config["message"] else "Initial commit (default message)"
         date = config["date"] if config["date"] else None
-        initial_commit(repo, message, author, email, date)
+        initial_commit(repo, message, author, email, author_date_iso=date)
 
     return repo
     
